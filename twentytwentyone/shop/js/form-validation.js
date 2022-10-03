@@ -78,7 +78,28 @@ document.addEventListener('DOMContentLoaded', function(e){
         //ajax http post request to backend
 
         let url = produktForm.dataset.url;
-        console.log(url);
+        let params = new URLSearchParams(new FormData(produktForm));
+        produktForm.querySelector('.js-form-submission').classList.add('show')
+
+		fetch(url, {
+			method: "POST",
+			body: params
+		}).then(res => res.json())
+			.catch(error => {
+				resetMessages();
+				produktForm.querySelector('.js-form-error').classList.add('show');
+			})
+			.then(response => {
+				resetMessages();
+				
+				if (response === 0 || response.status === 'error') {
+					produktForm.querySelector('.js-form-error').classList.add('show');
+					return;
+				}
+
+				produktForm.querySelector('.js-form-success').classList.add('show');
+				produktForm.reset();
+			})
 
     });
 });

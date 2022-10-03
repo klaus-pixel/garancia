@@ -72,11 +72,10 @@ get_header();
                    </div>
                         <snall class="field-msg js-form-submission">Kerkesa po perpunohet</snall>
                         <snall class="field-msg success js-form-success">Kerkesa u dergua me sukses</snall>
-                        <snall class="field-msg error error js-form-error">Nodhi nje gabim, Ju lutem provoni me vone</snall>
-
-
+                        <snall class="field-msg error js-form-error">Nodhi nje gabim, Ju lutem provoni me vone</snall>
                 </div>
 
+                <input type="hidden" name="action" value="submit_produkt_form">
             </form>
         </div>
     <?php
