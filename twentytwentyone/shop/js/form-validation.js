@@ -98,7 +98,21 @@ document.addEventListener('DOMContentLoaded', function(e){
 				}
 
 				produktForm.querySelector('.js-form-success').classList.add('show');
-				produktForm.reset();
+
+				produktForm.querySelector('[name="name"]').value = '';
+
+                produktForm.querySelector('[name="email"]').value = '';
+
+                produktForm.querySelector('[name="subject"]').value =  '';
+
+                produktForm.querySelector('[name="id"]').value = '';
+
+                produktForm.querySelector('[name="categoryselect"]').value = '';
+
+                produktForm.querySelector('[name="produktselect"]').value = '';
+
+                produktForm.querySelector('[name="message"]').value = '';
+        
 			})
 
     });
@@ -114,7 +128,7 @@ function resetMessages(){
 
 //REGEX email validation
 function validateEmail(email){
-
+;
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
 }
