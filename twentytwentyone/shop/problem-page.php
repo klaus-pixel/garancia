@@ -7,6 +7,9 @@ get_header();
 ?>
 
     <div class="filter js-filter">
+    <!-- onsubmit="return formValidation()"   -->
+                
+    </div>
     
     <div class="entry-content">
         <?php the_content('<p>', '<p>'); ?>
@@ -26,14 +29,14 @@ get_header();
                 </div>
 
                 <div class="row">
-                    <div class="label">Nr Serial</div>
-                    <input type="text" id="nrserial" name="nrserial" class="field-input" >
+                    <div class="label">Subjekti:</div>
+                    <input type="text" id="subject" name="subject" class="field-input" >
                     <snall class="field-msg error" data-error="invalidSubjekt">Subjekti eshte i detyrueshem</snall>
                 </div>
                 
                 <div class="row">
-                    <div class="label">NR Tel:</div>
-                    <input type="number" id="tel" name="tel" class="field-input" >
+                    <div class="label">NR ID:</div>
+                    <input type="number" id="id" name="id" class="field-input" >
                     <snall class="field-msg error" data-error="invalidId">Nr ID eshte i detyrueshem</snall>
                 </div>
                 
@@ -72,7 +75,7 @@ get_header();
                         <snall class="field-msg error js-form-error">Nodhi nje gabim, Ju lutem provoni me vone</snall>
                 </div>
 
-                <input type="hidden" name="action" value="submit_produkt_form">
+                <input type="hidden" name="action" value="submit_raportimin">
             </form>
         </div>
     <?php
