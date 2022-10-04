@@ -12,8 +12,6 @@
  //Shop files include 
  require_once('shop/ajax-callback.php');
  require_once('shop/shop-options.php');
-
- $class = new KontrolliRaportimeve();
  
 // This theme requires WordPress 5.3 or later.
 if ( version_compare( $GLOBALS['wp_version'], '5.3', '<' ) ) {
