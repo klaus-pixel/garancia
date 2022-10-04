@@ -29,14 +29,14 @@ get_header();
                 </div>
 
                 <div class="row">
-                    <div class="label">Subjekti:</div>
+                    <div class="label">Tel</div>
                     <input type="text" id="subject" name="subject" class="field-input" >
-                    <snall class="field-msg error" data-error="invalidSubjekt">Subjekti eshte i detyrueshem</snall>
+                    <snall class="field-msg error" data-error="invalidSubjekt">Numri telefonit eshte i detyrueshem</snall>
                 </div>
                 
                 <div class="row">
-                    <div class="label">NR ID:</div>
-                    <input type="number" id="id" name="id" class="field-input" >
+                    <div class="label">ID:</div>
+                    <input type="text" id="id" name="id" class="field-input" >
                     <snall class="field-msg error" data-error="invalidId">Nr ID eshte i detyrueshem</snall>
                 </div>
                 

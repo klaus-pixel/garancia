@@ -1,8 +1,8 @@
 <?php
 
 	// Define path and URL to the ACF plugin.
-	define( 'MY_ACF_PATH', get_stylesheet_directory() . '/inc/acf/' );
-	define( 'MY_ACF_URL', get_stylesheet_directory_uri() . '/inc/acf/' );
+	define( 'MY_ACF_PATH', get_stylesheet_directory() . '/shop/inc/acf/' );
+	define( 'MY_ACF_URL', get_stylesheet_directory_uri() . '/shop/inc/acf/' );
 
 	// Include the ACF plugin.
 	include_once( MY_ACF_PATH . 'acf.php' );
@@ -106,9 +106,10 @@ class KontrolliRaportimeve
 		$data = get_post_meta( $post->ID, '_alecaddd_raportimet_key', true );
 		$name = isset($data['name']) ? $data['name'] : '';
 		$email = isset($data['email']) ? $data['email'] : '';
-        $subject = isset($data['subject']) ? $data['subject'] : '';
-		$nr_id = isset($data['nr_id']) ? $data['nr_id'] : '';
-        $produkti = isset($data['produkti']) ? $data['produkti'] : '';
+		$ID = isset($data['id']) ? $data['id'] : '';
+		$tel = isset($data['subject']) ? $data['subject'] : '';
+		$produkti = isset($data['produktselect']) ? $data['produktselect'] : '';
+		$tipi = isset($data['categoryselect']) ? $tipi['categoryselect'] : '';
 		$approved = isset($data['approved']) ? $data['approved'] : false;
 		$featured = isset($data['featured']) ? $data['featured'] : false;
 		?>
@@ -120,17 +121,21 @@ class KontrolliRaportimeve
 			<label class="meta-label" for="alecaddd_raportimet_email">Author Email</label>
 			<input type="email" id="alecaddd_raportimet_email" name="alecaddd_raportimet_email" class="widefat" value="<?php echo esc_attr( $email ); ?>">
 		</p>
-        <p>
-			<label class="meta-label" for="alecaddd_raportimet_subject">Subjekti</label>
-			<input type="text" id="alecaddd_raportimet_subject" name="alecaddd_raportimet_subject" class="widefat" value="<?php echo esc_attr( $subject ); ?>">
+		<p>
+			<label class="meta-label" for="alecaddd_raportimet_id">ID</label>
+			<input type="text" id="alecaddd_raportimet_id" name="alecaddd_raportimet_id" class="widefat" value="<?php echo esc_attr( $ID ); ?>">
 		</p>
 		<p>
-			<label class="meta-label" for="alecaddd_raportimet_id">Nr ID</label>
-			<input type="text" id="alecaddd_raportimet_id" name="alecaddd_raportimet_id" class="widefat" value="<?php echo esc_attr( $nr_id ); ?>">
+			<label class="meta-label" for="alecaddd_raportimet_tel">Tel</label>
+			<input type="text" id="alecaddd_raportimet_tel" name="alecaddd_raportimet_tel" class="widefat" value="<?php echo esc_attr( $tel ); ?>">
 		</p>
-        <p>
+		<p>
 			<label class="meta-label" for="alecaddd_raportimet_produkti">Produkti</label>
-			<input type="number" id="alecaddd_raportimet_produkti" name="alecaddd_raportimet_produkti" class="widefat" value="<?php echo esc_attr( $produkti ); ?>">
+			<input type="text" id="alecaddd_raportimet_produkti" name="alecaddd_raportimet_produkti" class="widefat" value="<?php echo esc_attr( $produkti ); ?>">
+		</p>
+		<p>
+			<label class="meta-label" for="alecaddd_raportimet_tipi">Tipi</label>
+			<input type="text" id="alecaddd_raportimet_tipi" name="alecaddd_raportimet_tipi" class="widefat" value="<?php echo esc_attr( $tipi ); ?>">
 		</p>
 		<div class="meta-container">
 			<label class="meta-label w-50 text-left" for="alecaddd_raportimetl_approved">Approved</label>
@@ -173,9 +178,10 @@ class KontrolliRaportimeve
 		$data = array(
 			'name' => sanitize_text_field( $_POST['alecaddd_raportimet_author'] ),
 			'email' => sanitize_text_field( $_POST['alecaddd_raportimet_email'] ),
-            'subject' => sanitize_text_field( $_POST['alecaddd_raportimet_subject'] ),
-			'nr_id' => sanitize_text_field( $_POST['alecaddd_raportimet_id'] ),
-            'produkti' => sanitize_text_field( $_POST['alecaddd_raportimet_produkti'] ),
+			'id' => sanitize_text_field( $_POST['alecaddd_raportimet_id'] ),
+			'subject' => sanitize_text_field( $_POST['alecaddd_raportimet_tel'] ),
+			'produktselect' => sanitize_text_field( $_POST['alecaddd_raportimet_produkti'] ),
+			'categoryselect' => sanitize_text_field( $_POST['alecaddd_raportimet_tipi'] ),
 			'approved' => isset($_POST['alecaddd_raportimet_approved']) ? 1 : 0,
 			'featured' => isset($_POST['alecaddd_raportimet_featured']) ? 1 : 0,
 		);
@@ -192,9 +198,10 @@ class KontrolliRaportimeve
 
         $columns['name'] = 'Autori';
         $columns['title'] = $title;
-        $columns['subject'] = 'Subject';
-        $columns['nr_id'] = 'Nr ID';
-        $columns['produkti'] = 'Produkti';
+        $columns['id'] = 'ID';
+        $columns['subject'] = 'Tel';
+		$columns['categoryselect'] = 'Tipi';
+        $columns['produktselect'] = 'Produkti';
         $columns['approved'] = 'Approved';
         $columns['featured'] = 'Featured';
         $date['date'] = $data;
@@ -208,9 +215,10 @@ class KontrolliRaportimeve
 		$data = get_post_meta( $post_id, '_alecaddd_raportimet_key', true );
 		$name = isset($data['name']) ? $data['name'] : '';
 		$email = isset($data['email']) ? $data['email'] : '';
-        $subject = isset($data['subject']) ? $data['subject'] : '';
-        $nr_id = isset($data['nr_id']) ? $data['nr_id'] : '';
-        $produkti = isset($data['produkti']) ? $data['produkti'] : '';
+		$ID = isset($data['id']) ? $data['id'] : '';
+		$tel = isset($data['subject']) ? $data['subject'] : '';
+		$tipi = isset($data['categoryselect']) ? $data['categoryselect'] : '';
+		$produkti = isset($data['produktselect']) ? $data['produktselect'] : '';
 		$approved = isset($data['approved']) && $data['approved'] == 1 ? '<strong>YES</strong>' : 'NO';
 		$featured = isset($data['featured']) && $data['featured'] ==1  ? '<strong>YES</strong>' : 'NO';
 
@@ -218,19 +226,23 @@ class KontrolliRaportimeve
             case 'name':
                 echo '<strong>'. $name . '</strong><br/><a href="malitio:' . $email . '">'. $email .'</a>';
                 break;
-            
-            case 'subject':
-                echo '<strong>'. $subject . '</strong>';
-                break;
 
-            case 'nr_id':
-                echo '<strong>'. $nr_id . '</strong>';
-                break;
+			case 'id':
+				echo '<strong>'. $ID . '</strong>';
+				break;
 
-            case 'produkti':
-                echo '<strong>'. $produkti . '</strong>';
-                break;
-            
+			case 'subject':
+				echo '<strong>'. $tel . '</strong>';
+				break;
+
+			case 'categoryselect':
+				echo '<strong>'. $tipi . '</strong>';
+				break;
+
+			case 'produktselect':
+				echo '<strong>'. $produkti . '</strong>';
+				break;
+
             case 'approved':
                 echo $approved;
                 break;
@@ -257,18 +269,20 @@ class KontrolliRaportimeve
         // sanitize the dala
 
         $name = sanitize_text_field($_POST['name']);
-		$email = sanitize_text_field($_POST['email']);
-        $subject = sanitize_text_field($_POST['subject']);
-		$nr_id = sanitize_text_field($_POST['nr_id']);
-		$produkti = sanitize_text_field($_POST['produkti']);
+		$email = sanitize_email($_POST['email']);
+		$ID = sanitize_text_field($_POST['id']);
+		$tel = sanitize_text_field($_POST['subject']);
+		$tipi = sanitize_text_field($_POST['categoryselect']);
+		$produkti = sanitize_text_field($_POST['produktselect']);
 		$message = sanitize_textarea_field($_POST['message']);
 
 		$data = array(
 			'name' => $name,
 			'email' => $email,
-            'subject' => $subject,
-            'nr_id' => $nr_id,
-            'produkti' => $produkti,
+			'id' => $ID,
+			'subject' => $tel,
+			'categoryselect' => $tipi,
+			'produktselect' => $produkti,
 			'approved' => 0,
 			'featured' => 0,
 		);
@@ -344,7 +358,7 @@ add_action(
     [KontrolliRaportimeve::get_instance(), 'submit_produkt_form']
 );  
 
-function cptui_register_my_cpts() {
+function cptui_register_my_cpts_produkte() {
 
 	/**
 	 * Post Type: Produkte.
@@ -384,7 +398,8 @@ function cptui_register_my_cpts() {
 	register_post_type( "produkte", $args );
 }
 
-add_action( 'init', 'cptui_register_my_cpts' );
+add_action( 'init', 'cptui_register_my_cpts_produkte' );
+
 
 function cptui_register_my_taxes_tipi() {
 
