@@ -13,11 +13,11 @@
 		return MY_ACF_URL;
 	}
 
-	// (Optional) Hide the ACF admin menu item.
-	// add_filter('acf/settings/show_admin', 'my_acf_settings_show_admin');
-	// function my_acf_settings_show_admin( $show_admin ) {
-	// 	return false;
-	// }
+	// Hide the ACF admin menu item.
+	add_filter('acf/settings/show_admin', 'my_acf_settings_show_admin');
+	function my_acf_settings_show_admin( $show_admin ) {
+		return false;
+	}
 
 	function load_ajax(){
 		wp_enqueue_script('ajax', get_stylesheet_directory_uri(). '/shop/js/ajax-fiter.js' , array('jquery'), NULL, true);
@@ -106,6 +106,9 @@ class KontrolliRaportimeve
 		$data = get_post_meta( $post->ID, '_alecaddd_raportimet_key', true );
 		$name = isset($data['name']) ? $data['name'] : '';
 		$email = isset($data['email']) ? $data['email'] : '';
+        $subject = isset($data['subject']) ? $data['subject'] : '';
+		$nr_id = isset($data['nr_id']) ? $data['nr_id'] : '';
+        $produkti = isset($data['produkti']) ? $data['produkti'] : '';
 		$approved = isset($data['approved']) ? $data['approved'] : false;
 		$featured = isset($data['featured']) ? $data['featured'] : false;
 		?>
@@ -116,6 +119,18 @@ class KontrolliRaportimeve
 		<p>
 			<label class="meta-label" for="alecaddd_raportimet_email">Author Email</label>
 			<input type="email" id="alecaddd_raportimet_email" name="alecaddd_raportimet_email" class="widefat" value="<?php echo esc_attr( $email ); ?>">
+		</p>
+        <p>
+			<label class="meta-label" for="alecaddd_raportimet_subject">Subjekti</label>
+			<input type="text" id="alecaddd_raportimet_subject" name="alecaddd_raportimet_subject" class="widefat" value="<?php echo esc_attr( $subject ); ?>">
+		</p>
+		<p>
+			<label class="meta-label" for="alecaddd_raportimet_id">Nr ID</label>
+			<input type="text" id="alecaddd_raportimet_id" name="alecaddd_raportimet_id" class="widefat" value="<?php echo esc_attr( $nr_id ); ?>">
+		</p>
+        <p>
+			<label class="meta-label" for="alecaddd_raportimet_produkti">Produkti</label>
+			<input type="number" id="alecaddd_raportimet_produkti" name="alecaddd_raportimet_produkti" class="widefat" value="<?php echo esc_attr( $produkti ); ?>">
 		</p>
 		<div class="meta-container">
 			<label class="meta-label w-50 text-left" for="alecaddd_raportimetl_approved">Approved</label>
@@ -158,6 +173,9 @@ class KontrolliRaportimeve
 		$data = array(
 			'name' => sanitize_text_field( $_POST['alecaddd_raportimet_author'] ),
 			'email' => sanitize_text_field( $_POST['alecaddd_raportimet_email'] ),
+            'subject' => sanitize_text_field( $_POST['alecaddd_raportimet_subject'] ),
+			'nr_id' => sanitize_text_field( $_POST['alecaddd_raportimet_id'] ),
+            'produkti' => sanitize_text_field( $_POST['alecaddd_raportimet_produkti'] ),
 			'approved' => isset($_POST['alecaddd_raportimet_approved']) ? 1 : 0,
 			'featured' => isset($_POST['alecaddd_raportimet_featured']) ? 1 : 0,
 		);
@@ -174,6 +192,9 @@ class KontrolliRaportimeve
 
         $columns['name'] = 'Autori';
         $columns['title'] = $title;
+        $columns['subject'] = 'Subject';
+        $columns['nr_id'] = 'Nr ID';
+        $columns['produkti'] = 'Produkti';
         $columns['approved'] = 'Approved';
         $columns['featured'] = 'Featured';
         $date['date'] = $data;
@@ -187,6 +208,9 @@ class KontrolliRaportimeve
 		$data = get_post_meta( $post_id, '_alecaddd_raportimet_key', true );
 		$name = isset($data['name']) ? $data['name'] : '';
 		$email = isset($data['email']) ? $data['email'] : '';
+        $subject = isset($data['subject']) ? $data['subject'] : '';
+        $nr_id = isset($data['nr_id']) ? $data['nr_id'] : '';
+        $produkti = isset($data['produkti']) ? $data['produkti'] : '';
 		$approved = isset($data['approved']) && $data['approved'] == 1 ? '<strong>YES</strong>' : 'NO';
 		$featured = isset($data['featured']) && $data['featured'] ==1  ? '<strong>YES</strong>' : 'NO';
 
@@ -194,7 +218,19 @@ class KontrolliRaportimeve
             case 'name':
                 echo '<strong>'. $name . '</strong><br/><a href="malitio:' . $email . '">'. $email .'</a>';
                 break;
+            
+            case 'subject':
+                echo '<strong>'. $subject . '</strong>';
+                break;
 
+            case 'nr_id':
+                echo '<strong>'. $nr_id . '</strong>';
+                break;
+
+            case 'produkti':
+                echo '<strong>'. $produkti . '</strong>';
+                break;
+            
             case 'approved':
                 echo $approved;
                 break;
@@ -221,12 +257,18 @@ class KontrolliRaportimeve
         // sanitize the dala
 
         $name = sanitize_text_field($_POST['name']);
-		$email = sanitize_email($_POST['email']);
+		$email = sanitize_text_field($_POST['email']);
+        $subject = sanitize_text_field($_POST['subject']);
+		$nr_id = sanitize_text_field($_POST['nr_id']);
+		$produkti = sanitize_text_field($_POST['produkti']);
 		$message = sanitize_textarea_field($_POST['message']);
 
 		$data = array(
 			'name' => $name,
 			'email' => $email,
+            'subject' => $subject,
+            'nr_id' => $nr_id,
+            'produkti' => $produkti,
 			'approved' => 0,
 			'featured' => 0,
 		);
@@ -302,3 +344,44 @@ add_action(
     [KontrolliRaportimeve::get_instance(), 'submit_produkt_form']
 );  
 
+function cptui_register_my_cpts() {
+
+	/**
+	 * Post Type: Produkte.
+	 */
+
+	$labels = [
+		"name" => esc_html__( "Produkte", "twentytwentyone" ),
+		"singular_name" => esc_html__( "Produkte", "twentytwentyone" ),
+	];
+
+	$args = [
+		"label" => esc_html__( "Produkte", "twentytwentyone" ),
+		"labels" => $labels,
+		"description" => "",
+		"public" => true,
+		"publicly_queryable" => true,
+		"show_ui" => true,
+		"show_in_rest" => true,
+		"rest_base" => "",
+		"rest_controller_class" => "WP_REST_Posts_Controller",
+		"rest_namespace" => "wp/v2",
+		"has_archive" => false,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"delete_with_user" => false,
+		"exclude_from_search" => false,
+		"capability_type" => "post",
+		"map_meta_cap" => true,
+		"hierarchical" => false,
+		"can_export" => false,
+		"rewrite" => [ "slug" => "produkte", "with_front" => true ],
+		"query_var" => true,
+		"supports" => [ "title", "editor", "thumbnail", "custom-fields" ],
+		"show_in_graphql" => false,
+	];
+
+	register_post_type( "produkte", $args );
+}
+
+add_action( 'init', 'cptui_register_my_cpts' );

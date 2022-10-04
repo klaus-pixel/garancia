@@ -7,9 +7,6 @@ get_header();
 ?>
 
     <div class="filter js-filter">
-    <!-- onsubmit="return formValidation()"   -->
-                
-    </div>
     
     <div class="entry-content">
         <?php the_content('<p>', '<p>'); ?>
@@ -29,14 +26,14 @@ get_header();
                 </div>
 
                 <div class="row">
-                    <div class="label">Subjekti:</div>
-                    <input type="text" id="subject" name="subject" class="field-input" >
+                    <div class="label">Nr Serial</div>
+                    <input type="text" id="nrserial" name="nrserial" class="field-input" >
                     <snall class="field-msg error" data-error="invalidSubjekt">Subjekti eshte i detyrueshem</snall>
                 </div>
                 
                 <div class="row">
-                    <div class="label">NR ID:</div>
-                    <input type="number" id="id" name="id" class="field-input" >
+                    <div class="label">NR Tel:</div>
+                    <input type="number" id="tel" name="tel" class="field-input" >
                     <snall class="field-msg error" data-error="invalidId">Nr ID eshte i detyrueshem</snall>
                 </div>
                 
