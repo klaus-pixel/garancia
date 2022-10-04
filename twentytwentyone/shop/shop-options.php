@@ -106,6 +106,10 @@ class KontrolliRaportimeve
 		$data = get_post_meta( $post->ID, '_alecaddd_raportimet_key', true );
 		$name = isset($data['name']) ? $data['name'] : '';
 		$email = isset($data['email']) ? $data['email'] : '';
+		$ID = isset($data['id']) ? $data['id'] : '';
+		$tel = isset($data['subject']) ? $data['subject'] : '';
+		$produkti = isset($data['produktselect']) ? $data['produktselect'] : '';
+		$tipi = isset($data['categoryselect']) ? $tipi['categoryselect'] : '';
 		$approved = isset($data['approved']) ? $data['approved'] : false;
 		$featured = isset($data['featured']) ? $data['featured'] : false;
 		?>
@@ -116,6 +120,22 @@ class KontrolliRaportimeve
 		<p>
 			<label class="meta-label" for="alecaddd_raportimet_email">Author Email</label>
 			<input type="email" id="alecaddd_raportimet_email" name="alecaddd_raportimet_email" class="widefat" value="<?php echo esc_attr( $email ); ?>">
+		</p>
+		<p>
+			<label class="meta-label" for="alecaddd_raportimet_id">ID</label>
+			<input type="text" id="alecaddd_raportimet_id" name="alecaddd_raportimet_id" class="widefat" value="<?php echo esc_attr( $ID ); ?>">
+		</p>
+		<p>
+			<label class="meta-label" for="alecaddd_raportimet_tel">Tel</label>
+			<input type="text" id="alecaddd_raportimet_tel" name="alecaddd_raportimet_tel" class="widefat" value="<?php echo esc_attr( $tel ); ?>">
+		</p>
+		<p>
+			<label class="meta-label" for="alecaddd_raportimet_produkti">Produkti</label>
+			<input type="text" id="alecaddd_raportimet_produkti" name="alecaddd_raportimet_produkti" class="widefat" value="<?php echo esc_attr( $produkti ); ?>">
+		</p>
+		<p>
+			<label class="meta-label" for="alecaddd_raportimet_tipi">Tipi</label>
+			<input type="text" id="alecaddd_raportimet_tipi" name="alecaddd_raportimet_tipi" class="widefat" value="<?php echo esc_attr( $tipi ); ?>">
 		</p>
 		<div class="meta-container">
 			<label class="meta-label w-50 text-left" for="alecaddd_raportimetl_approved">Approved</label>
@@ -158,6 +178,10 @@ class KontrolliRaportimeve
 		$data = array(
 			'name' => sanitize_text_field( $_POST['alecaddd_raportimet_author'] ),
 			'email' => sanitize_text_field( $_POST['alecaddd_raportimet_email'] ),
+			'id' => sanitize_text_field( $_POST['alecaddd_raportimet_id'] ),
+			'subject' => sanitize_text_field( $_POST['alecaddd_raportimet_tel'] ),
+			'produktselect' => sanitize_text_field( $_POST['alecaddd_raportimet_produkti'] ),
+			'categoryselect' => sanitize_text_field( $_POST['alecaddd_raportimet_tipi'] ),
 			'approved' => isset($_POST['alecaddd_raportimet_approved']) ? 1 : 0,
 			'featured' => isset($_POST['alecaddd_raportimet_featured']) ? 1 : 0,
 		);
@@ -174,6 +198,10 @@ class KontrolliRaportimeve
 
         $columns['name'] = 'Autori';
         $columns['title'] = $title;
+        $columns['id'] = 'ID';
+        $columns['subject'] = 'Tel';
+		$columns['categoryselect'] = 'Tipi';
+        $columns['produktselect'] = 'Produkti';
         $columns['approved'] = 'Approved';
         $columns['featured'] = 'Featured';
         $date['date'] = $data;
@@ -187,6 +215,10 @@ class KontrolliRaportimeve
 		$data = get_post_meta( $post_id, '_alecaddd_raportimet_key', true );
 		$name = isset($data['name']) ? $data['name'] : '';
 		$email = isset($data['email']) ? $data['email'] : '';
+		$ID = isset($data['id']) ? $data['id'] : '';
+		$tel = isset($data['subject']) ? $data['subject'] : '';
+		$tipi = isset($data['categoryselect']) ? $data['categoryselect'] : '';
+		$produkti = isset($data['produktselect']) ? $data['produktselect'] : '';
 		$approved = isset($data['approved']) && $data['approved'] == 1 ? '<strong>YES</strong>' : 'NO';
 		$featured = isset($data['featured']) && $data['featured'] ==1  ? '<strong>YES</strong>' : 'NO';
 
@@ -194,6 +226,22 @@ class KontrolliRaportimeve
             case 'name':
                 echo '<strong>'. $name . '</strong><br/><a href="malitio:' . $email . '">'. $email .'</a>';
                 break;
+
+			case 'id':
+				echo '<strong>'. $ID . '</strong>';
+				break;
+
+			case 'subject':
+				echo '<strong>'. $tel . '</strong>';
+				break;
+
+			case 'categoryselect':
+				echo '<strong>'. $tipi . '</strong>';
+				break;
+
+			case 'produktselect':
+				echo '<strong>'. $produkti . '</strong>';
+				break;
 
             case 'approved':
                 echo $approved;
@@ -222,11 +270,19 @@ class KontrolliRaportimeve
 
         $name = sanitize_text_field($_POST['name']);
 		$email = sanitize_email($_POST['email']);
+		$ID = sanitize_text_field($_POST['id']);
+		$tel = sanitize_text_field($_POST['subject']);
+		$tipi = sanitize_text_field($_POST['categoryselect']);
+		$produkti = sanitize_text_field($_POST['produktselect']);
 		$message = sanitize_textarea_field($_POST['message']);
 
 		$data = array(
 			'name' => $name,
 			'email' => $email,
+			'id' => $ID,
+			'subject' => $tel,
+			'categoryselect' => $tipi,
+			'produktselect' => $produkti,
 			'approved' => 0,
 			'featured' => 0,
 		);
@@ -302,3 +358,82 @@ add_action(
     [KontrolliRaportimeve::get_instance(), 'submit_produkt_form']
 );  
 
+function cptui_register_my_cpts_produkte() {
+
+	/**
+	 * Post Type: Produkte.
+	 */
+
+	$labels = [
+		"name" => esc_html__( "Produkte", "twentytwentyone" ),
+		"singular_name" => esc_html__( "Produkte", "twentytwentyone" ),
+	];
+
+	$args = [
+		"label" => esc_html__( "Produkte", "twentytwentyone" ),
+		"labels" => $labels,
+		"description" => "",
+		"public" => true,
+		"publicly_queryable" => true,
+		"show_ui" => true,
+		"show_in_rest" => true,
+		"rest_base" => "",
+		"rest_controller_class" => "WP_REST_Posts_Controller",
+		"rest_namespace" => "wp/v2",
+		"has_archive" => false,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"delete_with_user" => false,
+		"exclude_from_search" => false,
+		"capability_type" => "post",
+		"map_meta_cap" => true,
+		"hierarchical" => false,
+		"can_export" => false,
+		"rewrite" => [ "slug" => "produkte", "with_front" => true ],
+		"query_var" => true,
+		"supports" => [ "title", "editor", "thumbnail", "custom-fields" ],
+		"show_in_graphql" => false,
+	];
+
+	register_post_type( "produkte", $args );
+}
+
+add_action( 'init', 'cptui_register_my_cpts_produkte' );
+
+
+function cptui_register_my_taxes_tipi() {
+
+	/**
+	 * Taxonomy: Tipi.
+	 */
+
+	$labels = [
+		"name" => esc_html__( "Tipi", "twentytwentyone" ),
+		"singular_name" => esc_html__( "Tipi", "twentytwentyone" ),
+	];
+
+	
+	$args = [
+		"label" => esc_html__( "Tipi", "twentytwentyone" ),
+		"labels" => $labels,
+		"public" => true,
+		"publicly_queryable" => true,
+		"hierarchical" => false,
+		"show_ui" => true,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"query_var" => true,
+		"rewrite" => [ 'slug' => 'tipi', 'with_front' => true, ],
+		"show_admin_column" => false,
+		"show_in_rest" => true,
+		"show_tagcloud" => false,
+		"rest_base" => "tipi",
+		"rest_controller_class" => "WP_REST_Terms_Controller",
+		"rest_namespace" => "wp/v2",
+		"show_in_quick_edit" => false,
+		"sort" => false,
+		"show_in_graphql" => false,
+	];
+	register_taxonomy( "tipi", [ "produkte" ], $args );
+}
+add_action( 'init', 'cptui_register_my_taxes_tipi' );
