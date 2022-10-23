@@ -1,7 +1,15 @@
 document.addEventListener('DOMContentLoaded', function(e){
 
     let produktForm = this.getElementById('contactform');
-
+    const areaSelect = produktForm.querySelector('[name="categoryselect"]');
+    var product_type;
+    var product;
+    areaSelect.addEventListener('change', (e) => {
+        // log(`e.target`, e.target);
+        const select = e.target;
+        const value = select.value;
+        product_type = select.selectedOptions[0].text;
+      });
     produktForm.addEventListener('submit', (e) => {
 
         e.preventDefault();
@@ -21,14 +29,14 @@ document.addEventListener('DOMContentLoaded', function(e){
 
             nrId: produktForm.querySelector('[name="id"]').value,
 
-            tipi: produktForm.querySelector('[name="categoryselect"]').value,
+            tipi: product_type,
 
-            produkti: produktForm.querySelector('[name="produktselect"]').value,
+            produkti: produktForm.querySelector('[name="produktselect"]').innerText,
 
             messazhi: produktForm.querySelector('[name="message"]').value,
         }
 
-        console.log(data);
+        console.log(data.produkti);
 
         //validate the everything
 
@@ -76,9 +84,9 @@ document.addEventListener('DOMContentLoaded', function(e){
 
 
         //ajax http post request to backend
-
         let url = produktForm.dataset.url;
         let params = new URLSearchParams(new FormData(produktForm));
+        console.log(url);  
         produktForm.querySelector('.js-form-submission').classList.add('show')
 
 		fetch(url, {
@@ -107,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function(e){
 
                 produktForm.querySelector('[name="id"]').value = '';
 
-                produktForm.querySelector('[name="categoryselect"]').value = '';
+                produktForm.querySelector('[name="produktselect"]').value = '';
 
                 produktForm.querySelector('[name="produktselect"]').value = '';
 

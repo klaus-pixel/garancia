@@ -204,7 +204,7 @@ class KontrolliRaportimeve
         $columns['produktselect'] = 'Produkti';
         $columns['approved'] = 'Approved';
         $columns['featured'] = 'Featured';
-        $date['date'] = $data;
+        $date['date'] = $date;
 
         return $columns;
     }
@@ -213,6 +213,7 @@ class KontrolliRaportimeve
     public function set_custom_columns_data( $column, $post_id) {
 
 		$data = get_post_meta( $post_id, '_alecaddd_raportimet_key', true );
+		
 		$name = isset($data['name']) ? $data['name'] : '';
 		$email = isset($data['email']) ? $data['email'] : '';
 		$ID = isset($data['id']) ? $data['id'] : '';
@@ -221,6 +222,7 @@ class KontrolliRaportimeve
 		$produkti = isset($data['produktselect']) ? $data['produktselect'] : '';
 		$approved = isset($data['approved']) && $data['approved'] == 1 ? '<strong>YES</strong>' : 'NO';
 		$featured = isset($data['featured']) && $data['featured'] ==1  ? '<strong>YES</strong>' : 'NO';
+		$view = 'View';
 
         switch ($column) {
             case 'name':
@@ -236,11 +238,11 @@ class KontrolliRaportimeve
 				break;
 
 			case 'categoryselect':
-				echo '<strong>'. $tipi . '</strong>';
+                echo '<strong>'. $tipi . '</strong><br/><a href="../wp-admin/term.php?taxonomy=tipi&tag_ID=' . $tipi .  '&post_type=produkte&wp_http_referer=%2Fwp-admin%2Fedit-tags.php%3Ftaxonomy%3Dtipi%26post_type%3Dprodukte">'. $view.'</a>';
 				break;
 
 			case 'produktselect':
-				echo '<strong>'. $produkti . '</strong>';
+				echo '<strong>'. $produkti . '</strong><br/><a href="../wp-admin/post.php?post=' . $produkti .  '&action=edit">'. $view.'</a>';
 				break;
 
             case 'approved':
@@ -275,7 +277,7 @@ class KontrolliRaportimeve
 		$tipi = sanitize_text_field($_POST['categoryselect']);
 		$produkti = sanitize_text_field($_POST['produktselect']);
 		$message = sanitize_textarea_field($_POST['message']);
-
+		var_dump($tipi);
 		$data = array(
 			'name' => $name,
 			'email' => $email,

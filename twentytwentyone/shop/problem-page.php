@@ -46,17 +46,17 @@ get_header();
                         <?php 
                             $categories = get_categories('taxonomy=tipi&post_type=produkte'); 
                             foreach ($categories as $cat) : ?>
-                                <option class="js-filter-item" value="<?= $cat->term_id; ?>">
+                                <option class="js-filter-item" value="<?= $cat->term_id; ?>" data-tipit= "<?= $cat->name; ?>">
                                     <?= $cat->name; ?>
                                 </option>
-                            <?php                        
+                            <?php
                             endforeach; 
                         ?>
                             <snall class="field-msg error" data-error="invalidProdukt">Ju lutem selektoni produktinin</snall>
                         </select>
                 </div>
                 <div class="row-column show">
-                    <select class="form-control" id="produkte" name="produktselect">
+                    <select class="form-control" id="produkte" name="produktselect"  >
 
                     </select>
                 </div>		
